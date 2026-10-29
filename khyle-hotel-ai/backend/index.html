@@ -1,0 +1,3528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Khyle Grand Hotel | AI Concierge</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background: #f4f5f7;
+
+            color: #202124;
+
+            height: 100vh;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================
+           MAIN APP
+        ========================================= */
+
+        .app {
+
+            width: 100%;
+
+            height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: #ffffff;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            height: 72px;
+
+            background: #111111;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            border-bottom: 1px solid #2a2a2a;
+
+            flex-shrink: 0;
+        }
+
+
+        .hotel-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+
+        .hotel-logo {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #c8a96b;
+
+            color: #111111;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .hotel-name {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        .concierge-label {
+
+            font-size: 12px;
+
+            color: #bdbdbd;
+
+            margin-top: 2px;
+        }
+
+
+        .online-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 12px;
+
+            color: #cfcfcf;
+        }
+
+
+        .online-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #3ac56b;
+
+            box-shadow: 0 0 8px rgba(58, 197, 107, 0.7);
+        }
+
+
+        /* =========================================
+           CHAT AREA
+        ========================================= */
+
+        .chat-area {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 30px 20px 25px;
+
+            background:
+                linear-gradient(
+                    rgba(255,255,255,0.97),
+                    rgba(248,248,248,0.97)
+                );
+        }
+
+
+        .chat-container {
+
+            width: 100%;
+
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           WELCOME
+        ========================================= */
+
+        .welcome {
+
+            text-align: center;
+
+            margin: 10px auto 28px;
+
+            max-width: 620px;
+        }
+
+
+        .welcome-icon {
+
+            width: 64px;
+
+            height: 64px;
+
+            border-radius: 50%;
+
+            background: #111111;
+
+            color: #c8a96b;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: auto auto 15px;
+
+            font-size: 27px;
+
+            font-weight: 700;
+        }
+
+
+        .welcome h1 {
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+
+            color: #171717;
+        }
+
+
+        .welcome p {
+
+            color: #6b6b6b;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           QUICK QUESTIONS
+        ========================================= */
+
+        .quick-actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+
+        .quick-button {
+
+            border: 1px solid #dddddd;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 8px 13px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            color: #444;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .quick-button:hover {
+
+            border-color: #c8a96b;
+
+            background: #fffaf0;
+
+            transform: translateY(-1px);
+        }
+
+
+        .quick-button:active {
+
+            transform: scale(0.97);
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        .message-row {
+
+            display: flex;
+
+            margin-bottom: 17px;
+
+            animation: fadeIn 0.25s ease;
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .message-row.user {
+
+            justify-content: flex-end;
+        }
+
+
+        .message-row.bot {
+
+            justify-content: flex-start;
+        }
+
+
+        .message {
+
+            max-width: 75%;
+
+            padding: 13px 16px;
+
+            border-radius: 16px;
+
+            line-height: 1.55;
+
+            font-size: 14px;
+
+            white-space: normal;
+
+            word-wrap: break-word;
+        }
+
+
+        .message.user {
+
+            background: #111111;
+
+            color: white;
+
+            border-bottom-right-radius: 5px;
+        }
+
+
+        .message.bot {
+
+            background: #ffffff;
+
+            color: #292929;
+
+            border: 1px solid #e6e6e6;
+
+            border-bottom-left-radius: 5px;
+
+            box-shadow: 0 2px 7px rgba(0,0,0,0.04);
+        }
+
+
+        .message strong {
+
+            font-size: 15px;
+
+            color: #111111;
+        }
+
+
+        .message.user strong {
+
+            color: white;
+        }
+
+
+        /* =========================================
+           ROOM CARDS
+        ========================================= */
+
+        .room-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-top: 5px;
+
+            width: 100%;
+
+            max-width: 850px;
+        }
+
+
+        .room-card {
+
+            background: #ffffff;
+
+            border: 1px solid #e4e4e4;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            min-height: 255px;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.05);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+
+        .room-card:hover {
+
+            transform: translateY(-3px);
+
+            border-color: #c8a96b;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.10);
+        }
+
+
+        .room-card h3 {
+
+            font-size: 18px;
+
+            font-weight: 650;
+
+            margin-bottom: 12px;
+
+            color: #171717;
+        }
+
+
+        .room-price {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: #a17f38;
+
+            margin-bottom: 8px;
+        }
+
+
+        .price-period {
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            color: #777;
+        }
+
+
+        .room-capacity {
+
+            font-size: 13px;
+
+            color: #555;
+
+            margin-bottom: 13px;
+        }
+
+
+        .room-description {
+
+            font-size: 13px;
+
+            color: #666;
+
+            line-height: 1.6;
+
+            min-height: 62px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .room-buttons {
+
+            display: flex;
+
+            gap: 9px;
+
+            margin-top: auto;
+        }
+
+
+        .room-button {
+
+            flex: 1;
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 10px 8px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                transform 0.15s ease;
+        }
+
+
+        .room-button:active {
+
+            transform: scale(0.97);
+        }
+
+
+        .view-button {
+
+            background: #f1f1f1;
+
+            color: #222;
+        }
+
+
+        .view-button:hover {
+
+            background: #e5e5e5;
+        }
+
+
+        .book-button {
+
+            background: #111111;
+
+            color: #ffffff;
+        }
+
+
+        .book-button:hover {
+
+            background: #c8a96b;
+
+            color: #111111;
+        }
+
+
+        /* =========================================
+           TYPING
+        ========================================= */
+
+        .typing {
+
+            display: none;
+
+            margin-bottom: 16px;
+        }
+
+
+        .typing-bubble {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 4px;
+
+            padding: 12px 15px;
+
+            background: white;
+
+            border: 1px solid #e6e6e6;
+
+            border-radius: 15px;
+        }
+
+
+        .typing-bubble span {
+
+            width: 6px;
+
+            height: 6px;
+
+            background: #888;
+
+            border-radius: 50%;
+
+            animation: typing 1.2s infinite;
+        }
+
+
+        .typing-bubble span:nth-child(2) {
+
+            animation-delay: 0.2s;
+        }
+
+
+        .typing-bubble span:nth-child(3) {
+
+            animation-delay: 0.4s;
+        }
+
+
+        @keyframes typing {
+
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        /* =========================================
+           INPUT AREA
+        ========================================= */
+
+        .input-area {
+
+            border-top: 1px solid #e5e5e5;
+
+            background: white;
+
+            padding: 14px 20px;
+
+            flex-shrink: 0;
+        }
+
+
+        .input-container {
+
+            max-width: 850px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+
+        .question-input {
+
+            flex: 1;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 24px;
+
+            padding: 13px 17px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+
+        .question-input:focus {
+
+            border-color: #c8a96b;
+
+            box-shadow:
+                0 0 0 3px rgba(200,169,107,0.12);
+        }
+
+
+        .question-input:disabled {
+
+            background: #f5f5f5;
+
+            cursor: not-allowed;
+        }
+
+
+        .send-button {
+
+            width: 46px;
+
+            height: 46px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: #111111;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .send-button:hover {
+
+            background: #2b2b2b;
+
+            transform: scale(1.04);
+        }
+
+
+        .send-button:disabled {
+
+            opacity: 0.55;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .clear-button {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            border: 1px solid #dddddd;
+
+            background: white;
+
+            color: #777;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        .clear-button:hover {
+
+            background: #f5f5f5;
+        }
+
+
+        /* =========================================
+           MODAL
+        ========================================= */
+
+        .modal-overlay {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+
+        .modal {
+
+            width: 100%;
+
+            max-width: 520px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .modal-header h2 {
+
+            font-size: 20px;
+
+            color: #171717;
+        }
+
+
+        .close-modal {
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 23px;
+
+            cursor: pointer;
+
+            color: #777;
+        }
+
+
+        .close-modal:hover {
+
+            color: #111;
+        }
+
+
+        .modal-room-info {
+
+            background: #f7f7f7;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .modal-room-info h3 {
+
+            margin-bottom: 7px;
+        }
+
+
+        .modal-room-info p {
+
+            color: #666;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-top: 7px;
+        }
+
+
+        .modal-room-info .total-preview {
+
+            margin-top: 12px;
+
+            padding-top: 12px;
+
+            border-top: 1px solid #dddddd;
+
+            font-weight: 600;
+
+            color: #111;
+        }
+
+
+        /* =========================================
+           BOOKING FORM
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 14px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: #444;
+
+            margin-bottom: 6px;
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: white;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #c8a96b;
+
+            box-shadow:
+                0 0 0 3px rgba(200,169,107,0.08);
+        }
+
+
+        .booking-summary {
+
+            background: #fffaf0;
+
+            border: 1px solid #ead9b2;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 14px;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            color: #555;
+        }
+
+
+        .booking-summary strong {
+
+            color: #111;
+        }
+
+
+        .submit-booking {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #111111;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: 600;
+
+            margin-top: 5px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .submit-booking:hover {
+
+            background: #2d2d2d;
+        }
+
+
+        .submit-booking:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
+        .booking-note {
+
+            font-size: 11px;
+
+            color: #777;
+
+            margin-top: 10px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+
+        /* =========================================
+           STATUS MESSAGE
+        ========================================= */
+
+        .status-message {
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            margin-bottom: 14px;
+
+            display: none;
+        }
+
+
+        .status-message.error {
+
+            display: block;
+
+            background: #fff1f1;
+
+            border: 1px solid #f0c4c4;
+
+            color: #a33;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                padding: 0 15px;
+
+                height: 65px;
+            }
+
+
+            .hotel-name {
+
+                font-size: 15px;
+            }
+
+
+            .online-status {
+
+                display: none;
+            }
+
+
+            .chat-area {
+
+                padding: 22px 12px;
+            }
+
+
+            .message {
+
+                max-width: 88%;
+            }
+
+
+            .room-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 21px;
+            }
+
+
+            .input-area {
+
+                padding: 10px;
+            }
+
+
+            .clear-button {
+
+                display: none;
+            }
+
+
+            .question-input {
+
+                min-width: 0;
+            }
+
+
+            .modal {
+
+                padding: 20px;
+
+                border-radius: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="header">
+
+        <div class="hotel-brand">
+
+            <div class="hotel-logo">
+                K
+            </div>
+
+            <div>
+
+                <div class="hotel-name">
+                    Khyle Grand Hotel
+                </div>
+
+                <div class="concierge-label">
+                    AI Concierge
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="online-status">
+
+            <span class="online-dot"></span>
+
+            Online
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         CHAT
+    ========================================== -->
+
+    <main class="chat-area" id="chatArea">
+
+        <div
+            class="chat-container"
+            id="chatContainer"
+        >
+
+
+            <!-- WELCOME -->
+
+            <div
+                class="welcome"
+                id="welcomeMessage"
+            >
+
+                <div class="welcome-icon">
+                    K
+                </div>
+
+                <h1>
+                    Welcome to Khyle Grand Hotel
+                </h1>
+
+                <p>
+                    I am your AI Concierge.
+                    I can assist you with rooms, dining,
+                    facilities, spa services, airport transfers,
+                    hotel policies and reservations.
+                </p>
+
+
+                <div class="quick-actions">
+
+                    <button
+                        type="button"
+                        class="quick-button"
+                        data-question="What rooms do you have?"
+                    >
+                        View rooms
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-button"
+                        data-question="What facilities are available?"
+                    >
+                        Facilities
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-button"
+                        data-question="What time is dinner?"
+                    >
+                        Restaurant
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-button"
+                        data-question="What spa services do you offer?"
+                    >
+                        Spa
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-button"
+                        data-question="What time is check-in?"
+                    >
+                        Check-in
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div id="messages"></div>
+
+
+            <!-- TYPING -->
+
+            <div
+                class="typing"
+                id="typingIndicator"
+            >
+
+                <div class="typing-bubble">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================================
+         INPUT
+    ========================================== -->
+
+    <div class="input-area">
+
+        <div class="input-container">
+
+
+            <button
+                type="button"
+                class="clear-button"
+                id="clearButton"
+                title="Clear conversation"
+            >
+                ↺
+            </button>
+
+
+            <input
+                type="text"
+                id="questionInput"
+                class="question-input"
+                placeholder="Ask your concierge anything..."
+                autocomplete="off"
+            >
+
+
+            <button
+                type="button"
+                class="send-button"
+                id="sendButton"
+                title="Send message"
+            >
+                ➤
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     ROOM MODAL
+========================================== -->
+
+<div
+    class="modal-overlay"
+    id="roomModal"
+>
+
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Room Details
+            </h2>
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-room-info"
+            id="modalRoomInfo"
+        >
+        </div>
+
+
+        <!-- BOOKING FORM -->
+
+        <div
+            id="bookingForm"
+            style="display: none;"
+        >
+
+            <div
+                class="status-message"
+                id="bookingStatus"
+            ></div>
+
+
+            <div class="form-group">
+
+                <label for="guestName">
+                    Guest name
+                </label>
+
+                <input
+                    type="text"
+                    id="guestName"
+                    placeholder="Enter guest name"
+                    autocomplete="name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="checkInDate">
+                    Check-in date
+                </label>
+
+                <input
+                    type="date"
+                    id="checkInDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="checkOutDate">
+                    Check-out date
+                </label>
+
+                <input
+                    type="date"
+                    id="checkOutDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="guestCount">
+                    Number of guests
+                </label>
+
+                <select id="guestCount">
+                </select>
+
+            </div>
+
+
+            <div
+                class="booking-summary"
+                id="bookingSummary"
+            >
+                Select your dates to calculate the estimated stay.
+            </div>
+
+
+            <button
+                type="button"
+                class="submit-booking"
+                id="submitBookingButton"
+            >
+                Request Booking
+            </button>
+
+
+            <div class="booking-note">
+
+                Your booking request will be recorded with
+                a pending status. Confirmation can be handled
+                by the hotel after the request is received.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   KHYLE GRAND HOTEL
+   FRONTEND APPLICATION
+===================================================== */
+
+
+/* =====================================================
+   GLOBAL STATE
+===================================================== */
+
+let selectedRoom = null;
+
+let bookingSubmitting = false;
+
+let assistantLoading = false;
+
+const STORAGE_KEY = "khyle_hotel_conversation_v2";
+
+
+/* =====================================================
+   DOM ELEMENTS
+===================================================== */
+
+const questionInput =
+    document.getElementById("questionInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const clearButton =
+    document.getElementById("clearButton");
+
+const messagesContainer =
+    document.getElementById("messages");
+
+const welcomeMessage =
+    document.getElementById("welcomeMessage");
+
+const typingIndicator =
+    document.getElementById("typingIndicator");
+
+const roomModal =
+    document.getElementById("roomModal");
+
+const closeModalButton =
+    document.getElementById("closeModalButton");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalRoomInfo =
+    document.getElementById("modalRoomInfo");
+
+const bookingForm =
+    document.getElementById("bookingForm");
+
+const guestNameInput =
+    document.getElementById("guestName");
+
+const checkInDate =
+    document.getElementById("checkInDate");
+
+const checkOutDate =
+    document.getElementById("checkOutDate");
+
+const guestCount =
+    document.getElementById("guestCount");
+
+const bookingSummary =
+    document.getElementById("bookingSummary");
+
+const bookingStatus =
+    document.getElementById("bookingStatus");
+
+const submitBookingButton =
+    document.getElementById("submitBookingButton");
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    setMinimumDate();
+
+    loadConversation();
+
+    setupEventListeners();
+
+});
+
+
+/* =====================================================
+   EVENT LISTENERS
+===================================================== */
+
+function setupEventListeners() {
+
+
+    /* SEND BUTTON */
+
+    if (sendButton) {
+
+        sendButton.addEventListener(
+            "click",
+            function () {
+
+                sendQuestion();
+
+            }
+        );
+
+    }
+
+
+    /* ENTER KEY */
+
+    if (questionInput) {
+
+        questionInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    sendQuestion();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* CLEAR BUTTON */
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+            "click",
+            clearConversation
+        );
+
+    }
+
+
+    /* QUICK QUESTIONS */
+
+    const quickButtons =
+        document.querySelectorAll(".quick-button");
+
+
+    quickButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const question =
+                    button.dataset.question;
+
+                sendQuestion(question);
+
+            }
+        );
+
+    });
+
+
+    /* CLOSE MODAL */
+
+    if (closeModalButton) {
+
+        closeModalButton.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+
+    /* CLICK OUTSIDE MODAL */
+
+    if (roomModal) {
+
+        roomModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === roomModal) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* ESCAPE KEY */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape" &&
+                roomModal.style.display === "flex"
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    /* BOOKING SUBMIT */
+
+    if (submitBookingButton) {
+
+        submitBookingButton.addEventListener(
+            "click",
+            submitBooking
+        );
+
+    }
+
+
+    /* DATE CHANGES */
+
+    if (checkInDate) {
+
+        checkInDate.addEventListener(
+            "change",
+            updateBookingSummary
+        );
+
+    }
+
+
+    if (checkOutDate) {
+
+        checkOutDate.addEventListener(
+            "change",
+            updateBookingSummary
+        );
+
+    }
+
+
+    if (guestCount) {
+
+        guestCount.addEventListener(
+            "change",
+            updateBookingSummary
+        );
+
+    }
+
+
+    /*
+       EVENT DELEGATION
+
+       This is important.
+
+       Room buttons will continue to work even
+       after the conversation is loaded from localStorage.
+    */
+
+    if (messagesContainer) {
+
+        messagesContainer.addEventListener(
+            "click",
+            handleRoomButtonClick
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SEND QUESTION
+===================================================== */
+
+async function sendQuestion(question = null) {
+
+    if (assistantLoading) {
+        return;
+    }
+
+    let userQuestion = question;
+
+    if (!userQuestion && questionInput) {
+        userQuestion = questionInput.value.trim();
+    }
+
+    if (!userQuestion) {
+        return;
+    }
+
+    addMessage(userQuestion, "user");
+
+    if (questionInput) {
+        questionInput.value = "";
+    }
+
+    assistantLoading = true;
+    setInputState(true);
+    showTyping();
+
+    try {
+
+        const response = await fetch(
+            `/ask?question=${encodeURIComponent(userQuestion)}`
+        );
+
+        let data;
+
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            throw new Error(
+                "The hotel assistant returned an invalid response."
+            );
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Unable to contact the hotel assistant."
+            );
+        }
+
+        hideTyping();
+
+        /*
+         * ROOM RESPONSE
+         *
+         * Only display room cards when the returned
+         * array actually contains room objects.
+         */
+
+        if (
+            Array.isArray(data.answer) &&
+            data.answer.length > 0 &&
+            typeof data.answer[0] === "object" &&
+            data.answer[0] !== null &&
+            "name" in data.answer[0] &&
+            "rate_per_night" in data.answer[0] &&
+            "capacity" in data.answer[0]
+        ) {
+
+            displayRoomCards(data.answer);
+
+        }
+
+        /*
+         * LIST RESPONSE
+         *
+         * Facilities and other lists should be displayed
+         * as normal text instead of room cards.
+         */
+
+        else if (Array.isArray(data.answer)) {
+
+            const listHTML = data.answer
+                .map(item => `• ${escapeHTML(String(item))}`)
+                .join("<br>");
+
+            addMessage(
+                listHTML,
+                "bot",
+                true
+            );
+
+        }
+
+        /*
+         * NORMAL TEXT RESPONSE
+         */
+
+        else {
+
+            addMessage(
+                formatAnswer(data.answer),
+                "bot",
+                true
+            );
+
+        }
+
+    } catch (error) {
+
+        hideTyping();
+
+        console.error(
+            "Question error:",
+            error
+        );
+
+        addMessage(
+            escapeHTML(
+                error.message ||
+                "Sorry, I could not connect to the hotel assistant."
+            ),
+            "bot",
+            true
+        );
+
+    } finally {
+
+        assistantLoading = false;
+
+        setInputState(false);
+
+        if (questionInput) {
+            questionInput.focus();
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   INPUT STATE
+===================================================== */
+
+function setInputState(disabled) {
+
+    if (questionInput) {
+
+        questionInput.disabled =
+            disabled;
+
+    }
+
+
+    if (sendButton) {
+
+        sendButton.disabled =
+            disabled;
+
+    }
+
+}
+
+
+/* =====================================================
+   FORMAT ANSWER
+===================================================== */
+
+function formatAnswer(answer) {
+
+    if (answer === null || answer === undefined) {
+
+        return "I don't have that information available right now.";
+
+    }
+
+
+    if (typeof answer !== "string") {
+
+        return escapeHTML(
+            JSON.stringify(answer)
+        );
+
+    }
+
+
+    /*
+     * The backend uses <strong> and <br>
+     * for simple message formatting.
+     *
+     * Escape everything else while preserving
+     * only these two approved tags.
+     */
+
+    const safeAnswer = escapeHTML(answer)
+        .replace(/&lt;strong&gt;/gi, "<strong>")
+        .replace(/&lt;\/strong&gt;/gi, "</strong>")
+        .replace(/&lt;br&gt;/gi, "<br>")
+        .replace(/&lt;br\/&gt;/gi, "<br>")
+        .replace(/\n/g, "<br>");
+
+
+    return safeAnswer;
+
+}
+
+/* =====================================================
+   ADD MESSAGE
+===================================================== */
+
+function addMessage(
+    text,
+    sender,
+    allowHTML = false
+) {
+
+
+    if (!messagesContainer) {
+
+        return;
+
+    }
+
+
+    const row =
+        document.createElement("div");
+
+
+    row.className =
+        `message-row ${sender}`;
+
+
+    const message =
+        document.createElement("div");
+
+
+    message.className =
+        `message ${sender}`;
+
+
+    if (allowHTML) {
+
+        message.innerHTML =
+            text;
+
+    } else {
+
+        message.textContent =
+            text;
+
+    }
+
+
+    row.appendChild(message);
+
+    messagesContainer.appendChild(row);
+
+
+    hideWelcome();
+
+    saveConversation();
+
+    scrollToBottom();
+
+}
+
+
+/* =====================================================
+   DISPLAY ROOM CARDS
+===================================================== */
+
+function displayRoomCards(roomList) {
+
+
+    if (!messagesContainer) {
+
+        return;
+
+    }
+
+
+    const row =
+        document.createElement("div");
+
+
+    row.className =
+        "message-row bot";
+
+
+    const container =
+        document.createElement("div");
+
+
+    container.className =
+        "room-grid";
+
+
+    roomList.forEach(function (room) {
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "room-card";
+
+
+        /* ROOM TITLE */
+
+        const title =
+            document.createElement("h3");
+
+
+        title.textContent =
+            room.name;
+
+
+        /* DESCRIPTION */
+
+        const description =
+            document.createElement("p");
+
+
+        description.className =
+            "room-description";
+
+
+        description.textContent =
+            room.description;
+
+
+        /* PRICE */
+
+        const price =
+            document.createElement("div");
+
+
+        price.className =
+            "room-price";
+
+
+        price.textContent =
+            `${room.currency} ${Number(
+                room.rate_per_night
+            ).toLocaleString()} / night`;
+
+
+        /* CAPACITY */
+
+        const capacity =
+            document.createElement("div");
+
+
+        capacity.className =
+            "room-capacity";
+
+
+        capacity.textContent =
+            `Up to ${room.capacity} guests`;
+
+
+        /* BUTTON CONTAINER */
+
+        const buttons =
+            document.createElement("div");
+
+
+        buttons.className =
+            "room-buttons";
+
+
+        /* VIEW BUTTON */
+
+        const viewButton =
+            document.createElement("button");
+
+
+        viewButton.type =
+            "button";
+
+
+        viewButton.className =
+            "room-button view-button";
+
+
+        viewButton.textContent =
+            "View Room";
+
+
+        /*
+           Store the room safely in a data attribute.
+
+           This avoids the old problem where an apostrophe
+           inside a room description could break JavaScript.
+        */
+
+        viewButton.dataset.action =
+            "view";
+
+
+        viewButton.dataset.room =
+            JSON.stringify(room);
+
+
+        /* BOOK BUTTON */
+
+        const bookButton =
+            document.createElement("button");
+
+
+        bookButton.type =
+            "button";
+
+
+        bookButton.className =
+            "room-button book-button";
+
+
+        bookButton.textContent =
+            "Book Now";
+
+
+        bookButton.dataset.action =
+            "book";
+
+
+        bookButton.dataset.room =
+            JSON.stringify(room);
+
+
+        /* BUILD CARD */
+
+        buttons.appendChild(viewButton);
+
+        buttons.appendChild(bookButton);
+
+
+        card.appendChild(title);
+
+        card.appendChild(price);
+
+        card.appendChild(capacity);
+
+        card.appendChild(description);
+
+        card.appendChild(buttons);
+
+
+        container.appendChild(card);
+
+    });
+
+
+    row.appendChild(container);
+
+    messagesContainer.appendChild(row);
+
+
+    hideWelcome();
+
+    saveConversation();
+
+    scrollToBottom();
+
+}
+
+
+/* =====================================================
+   ROOM BUTTON EVENT HANDLER
+===================================================== */
+
+function handleRoomButtonClick(event) {
+
+
+    const button =
+        event.target.closest(
+            "button[data-action]"
+        );
+
+
+    if (!button) {
+
+        return;
+
+    }
+
+
+    const roomData =
+        button.dataset.room;
+
+
+    if (!roomData) {
+
+        return;
+
+    }
+
+
+    let room;
+
+
+    try {
+
+        room =
+            JSON.parse(roomData);
+
+    } catch (error) {
+
+        console.error(
+            "Room data error:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if (button.dataset.action === "view") {
+
+        viewRoom(room);
+
+    }
+
+
+    if (button.dataset.action === "book") {
+
+        bookRoom(room);
+
+    }
+
+}
+
+
+/* =====================================================
+   ROOM INFORMATION
+===================================================== */
+
+function buildRoomInformation(room) {
+
+
+    return `
+
+        <h3>
+            ${escapeHTML(room.name)}
+        </h3>
+
+        <p>
+            ${escapeHTML(room.description)}
+        </p>
+
+        <p>
+            <strong>Rate:</strong>
+            ${escapeHTML(room.currency)}
+            ${Number(
+                room.rate_per_night
+            ).toLocaleString()}
+            per night
+        </p>
+
+        <p>
+            <strong>Maximum guests:</strong>
+            ${escapeHTML(room.capacity)}
+        </p>
+
+    `;
+
+}
+
+
+/* =====================================================
+   VIEW ROOM
+===================================================== */
+
+function viewRoom(room) {
+
+
+    selectedRoom =
+        room;
+
+
+    modalTitle.textContent =
+        room.name;
+
+
+    modalRoomInfo.innerHTML =
+        buildRoomInformation(room);
+
+
+    bookingForm.style.display =
+        "none";
+
+
+    clearBookingStatus();
+
+
+    roomModal.style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   BOOK ROOM
+===================================================== */
+
+function bookRoom(room) {
+
+
+    selectedRoom =
+        room;
+
+
+    modalTitle.textContent =
+        `Book ${room.name}`;
+
+
+    modalRoomInfo.innerHTML =
+        buildRoomInformation(room);
+
+
+    /* BUILD GUEST OPTIONS */
+
+    guestCount.innerHTML =
+        "";
+
+
+    for (
+        let i = 1;
+        i <= room.capacity;
+        i++
+    ) {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value =
+            i;
+
+
+        option.textContent =
+            `${i} ${
+                i === 1
+                    ? "Guest"
+                    : "Guests"
+            }`;
+
+
+        guestCount.appendChild(option);
+
+    }
+
+
+    /* DEFAULT GUEST COUNT */
+
+    guestCount.value =
+        "1";
+
+
+    /* RESET FORM */
+
+    guestNameInput.value =
+        "";
+
+
+    checkInDate.value =
+        "";
+
+
+    checkOutDate.value =
+        "";
+
+
+    clearBookingStatus();
+
+
+    bookingForm.style.display =
+        "block";
+
+
+    roomModal.style.display =
+        "flex";
+
+
+    updateBookingSummary();
+
+
+    setTimeout(function () {
+
+        guestNameInput.focus();
+
+    }, 100);
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal() {
+
+
+    roomModal.style.display =
+        "none";
+
+
+    selectedRoom =
+        null;
+
+
+    bookingSubmitting =
+        false;
+
+
+    if (submitBookingButton) {
+
+        submitBookingButton.disabled =
+            false;
+
+        submitBookingButton.textContent =
+            "Request Booking";
+
+    }
+
+}
+
+
+/* =====================================================
+   SET MINIMUM DATE
+===================================================== */
+
+function setMinimumDate() {
+
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+
+    const todayString =
+        `${year}-${month}-${day}`;
+
+
+    if (checkInDate) {
+
+        checkInDate.min =
+            todayString;
+
+    }
+
+
+    if (checkOutDate) {
+
+        checkOutDate.min =
+            todayString;
+
+    }
+
+}
+
+
+/* =====================================================
+   DATE VALIDATION
+===================================================== */
+
+function validateBookingDates() {
+
+
+    if (!checkInDate.value ||
+        !checkOutDate.value) {
+
+        return {
+            valid: true
+        };
+
+    }
+
+
+    if (
+        checkOutDate.value <=
+        checkInDate.value
+    ) {
+
+        return {
+            valid: false,
+            message:
+                "Check-out date must be after check-in date."
+        };
+
+    }
+
+
+    return {
+        valid: true
+    };
+
+}
+
+
+/* =====================================================
+   CALCULATE NIGHTS
+===================================================== */
+
+function calculateNights(
+    checkIn,
+    checkOut
+) {
+
+
+    if (!checkIn || !checkOut) {
+
+        return 0;
+
+    }
+
+
+    const start =
+        new Date(
+            `${checkIn}T00:00:00`
+        );
+
+
+    const end =
+        new Date(
+            `${checkOut}T00:00:00`
+        );
+
+
+    const difference =
+        end.getTime() -
+        start.getTime();
+
+
+    return Math.ceil(
+        difference /
+        (1000 * 60 * 60 * 24)
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE BOOKING SUMMARY
+===================================================== */
+
+function updateBookingSummary() {
+
+
+    if (!selectedRoom) {
+
+        return;
+
+    }
+
+
+    const nights =
+        calculateNights(
+            checkInDate.value,
+            checkOutDate.value
+        );
+
+
+    const guests =
+        parseInt(
+            guestCount.value,
+            10
+        ) || 1;
+
+
+    if (nights <= 0) {
+
+        bookingSummary.innerHTML =
+
+            `
+            <strong>${escapeHTML(
+                selectedRoom.name
+            )}</strong><br>
+
+            ${guests}
+            ${
+                guests === 1
+                    ? "guest"
+                    : "guests"
+            }
+
+            <br><br>
+
+            Select valid check-in and
+            check-out dates to calculate
+            the estimated stay.
+            `;
+
+        return;
+
+    }
+
+
+    const total =
+        nights *
+        Number(
+            selectedRoom.rate_per_night
+        );
+
+
+    bookingSummary.innerHTML =
+
+        `
+        <strong>Stay summary</strong><br>
+
+        Room:
+        ${escapeHTML(
+            selectedRoom.name
+        )}
+        <br>
+
+        Guests:
+        ${guests}
+        ${
+            guests === 1
+                ? "guest"
+                : "guests"
+        }
+        <br>
+
+        Nights:
+        ${nights}
+        <br>
+
+        Rate:
+        ${escapeHTML(
+            selectedRoom.currency
+        )}
+        ${Number(
+            selectedRoom.rate_per_night
+        ).toLocaleString()}
+        / night
+
+        <br><br>
+
+        <strong>
+            Estimated total:
+            ${escapeHTML(
+                selectedRoom.currency
+            )}
+            ${total.toLocaleString()}
+        </strong>
+        `;
+
+}
+
+
+/* =====================================================
+   SUBMIT BOOKING
+===================================================== */
+
+async function submitBooking() {
+
+
+    if (bookingSubmitting) {
+
+        return;
+
+    }
+
+
+    if (!selectedRoom) {
+
+        showBookingError(
+            "Please select a room first."
+        );
+
+        return;
+
+    }
+
+
+    const guestName =
+        guestNameInput.value.trim();
+
+
+    const checkIn =
+        checkInDate.value;
+
+
+    const checkOut =
+        checkOutDate.value;
+
+
+    const guests =
+        parseInt(
+            guestCount.value,
+            10
+        );
+
+
+    /* GUEST NAME */
+
+    if (!guestName) {
+
+        showBookingError(
+            "Please enter the guest name."
+        );
+
+        guestNameInput.focus();
+
+        return;
+
+    }
+
+
+    if (guestName.length < 2) {
+
+        showBookingError(
+            "Please enter a valid guest name."
+        );
+
+        guestNameInput.focus();
+
+        return;
+
+    }
+
+
+    /* DATES */
+
+    if (!checkIn || !checkOut) {
+
+        showBookingError(
+            "Please select both check-in and check-out dates."
+        );
+
+        return;
+
+    }
+
+
+    const dateValidation =
+        validateBookingDates();
+
+
+    if (!dateValidation.valid) {
+
+        showBookingError(
+            dateValidation.message
+        );
+
+        return;
+
+    }
+
+
+    /* GUEST COUNT */
+
+    if (
+        !guests ||
+        guests < 1
+    ) {
+
+        showBookingError(
+            "Please select the number of guests."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        guests >
+        selectedRoom.capacity
+    ) {
+
+        showBookingError(
+            `${selectedRoom.name} accommodates up to ${selectedRoom.capacity} guests.`
+        );
+
+        return;
+
+    }
+
+
+    /* PREPARE REQUEST */
+
+    const bookingData = {
+
+        guest_name:
+            guestName,
+
+        room_name:
+            selectedRoom.name,
+
+        check_in:
+            checkIn,
+
+        check_out:
+            checkOut,
+
+        guests:
+            guests
+
+    };
+
+
+    bookingSubmitting =
+        true;
+
+
+    submitBookingButton.disabled =
+        true;
+
+
+    submitBookingButton.textContent =
+        "Submitting...";
+
+
+    clearBookingStatus();
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/bookings",
+                {
+
+                    method:
+                        "POST",
+
+                    headers:
+                        {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                    body:
+                        JSON.stringify(
+                            bookingData
+                        )
+
+                }
+            );
+
+
+        let result;
+
+
+        try {
+
+            result =
+                await response.json();
+
+        } catch (jsonError) {
+
+            throw new Error(
+                "The booking service returned an invalid response."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.detail ||
+                "Unable to create booking."
+            );
+
+        }
+
+
+        /* SUCCESS */
+
+        closeModal();
+
+
+        addMessage(
+            `Booking request submitted for ${escapeHTML(
+                result.room_name
+            )}.`,
+            "user",
+            true
+        );
+
+
+        setTimeout(
+            function () {
+
+                const nights =
+                    calculateNights(
+                        result.check_in,
+                        result.check_out
+                    );
+
+
+                const total =
+                    nights *
+                    Number(
+                        result.rate_per_night
+                    );
+
+
+                addMessage(
+
+                    `
+
+                    <strong>
+                        Booking request received
+                    </strong>
+
+                    <br><br>
+
+                    Your booking request has been
+                    recorded successfully.
+
+                    <br><br>
+
+                    <strong>
+                        Booking Reference:
+                    </strong>
+                    ${escapeHTML(
+                        result.booking_reference
+                    )}
+
+                    <br>
+
+                    <strong>
+                        Guest:
+                    </strong>
+                    ${escapeHTML(
+                        result.guest_name
+                    )}
+
+                    <br>
+
+                    <strong>
+                        Room:
+                    </strong>
+                    ${escapeHTML(
+                        result.room_name
+                    )}
+
+                    <br>
+
+                    <strong>
+                        Check-in:
+                    </strong>
+                    ${escapeHTML(
+                        result.check_in
+                    )}
+
+                    <br>
+
+                    <strong>
+                        Check-out:
+                    </strong>
+                    ${escapeHTML(
+                        result.check_out
+                    )}
+
+                    <br>
+
+                    <strong>
+                        Guests:
+                    </strong>
+                    ${result.guests}
+
+                    <br>
+
+                    <strong>
+                        Nights:
+                    </strong>
+                    ${nights}
+
+                    <br>
+
+                    <strong>
+                        Estimated total:
+                    </strong>
+                    ${Number(
+                        result.rate_per_night
+                    ).toLocaleString()}
+
+                    × ${nights}
+                    =
+                    ${total.toLocaleString()}
+
+                    NGN
+
+                    <br>
+
+                    <strong>
+                        Status:
+                    </strong>
+                    ${escapeHTML(
+                        result.status
+                    )}
+
+                    <br><br>
+
+                    Please keep your booking reference
+                    for future enquiries.
+
+                    `,
+
+                    "bot",
+
+                    true
+
+                );
+
+            },
+            500
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Booking error:",
+            error
+        );
+
+
+        showBookingError(
+            error.message ||
+            "Unable to create booking."
+        );
+
+
+    } finally {
+
+
+        bookingSubmitting =
+            false;
+
+
+        submitBookingButton.disabled =
+            false;
+
+
+        submitBookingButton.textContent =
+            "Request Booking";
+
+    }
+
+}
+
+
+/* =====================================================
+   BOOKING ERROR
+===================================================== */
+
+function showBookingError(message) {
+
+
+    if (!bookingStatus) {
+
+        alert(message);
+
+        return;
+
+    }
+
+
+    bookingStatus.textContent =
+        message;
+
+
+    bookingStatus.className =
+        "status-message error";
+
+}
+
+
+/* =====================================================
+   CLEAR BOOKING ERROR
+===================================================== */
+
+function clearBookingStatus() {
+
+
+    if (!bookingStatus) {
+
+        return;
+
+    }
+
+
+    bookingStatus.textContent =
+        "";
+
+
+    bookingStatus.className =
+        "status-message";
+
+}
+
+
+/* =====================================================
+   TYPING INDICATOR
+===================================================== */
+
+function showTyping() {
+
+
+    if (typingIndicator) {
+
+        typingIndicator.style.display =
+            "block";
+
+    }
+
+
+    scrollToBottom();
+
+}
+
+
+function hideTyping() {
+
+
+    if (typingIndicator) {
+
+        typingIndicator.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   HIDE WELCOME
+===================================================== */
+
+function hideWelcome() {
+
+
+    if (welcomeMessage) {
+
+        welcomeMessage.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW WELCOME
+===================================================== */
+
+function showWelcome() {
+
+
+    if (welcomeMessage) {
+
+        welcomeMessage.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* =====================================================
+   SCROLL
+===================================================== */
+
+function scrollToBottom() {
+
+
+    const chatArea =
+        document.getElementById(
+            "chatArea"
+        );
+
+
+    if (!chatArea) {
+
+        return;
+
+    }
+
+
+    setTimeout(
+        function () {
+
+            chatArea.scrollTop =
+                chatArea.scrollHeight;
+
+        },
+        50
+    );
+
+}
+
+
+/* =====================================================
+   SAVE CONVERSATION
+===================================================== */
+
+function saveConversation() {
+
+
+    if (!messagesContainer) {
+
+        return;
+
+    }
+
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            messagesContainer.innerHTML
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not save conversation:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD CONVERSATION
+===================================================== */
+
+function loadConversation() {
+
+
+    let savedConversation;
+
+
+    try {
+
+        savedConversation =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Could not load conversation:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !savedConversation ||
+        !messagesContainer
+    ) {
+
+        return;
+
+    }
+
+
+    messagesContainer.innerHTML =
+        savedConversation;
+
+
+    if (
+        messagesContainer.children.length >
+        0
+    ) {
+
+        hideWelcome();
+
+    }
+
+
+    scrollToBottom();
+
+}
+
+
+/* =====================================================
+   CLEAR CONVERSATION
+===================================================== */
+
+function clearConversation() {
+
+
+    const confirmed =
+        window.confirm(
+            "Clear your current conversation?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not clear conversation:",
+            error
+        );
+
+    }
+
+
+    if (messagesContainer) {
+
+        messagesContainer.innerHTML =
+            "";
+
+    }
+
+
+    showWelcome();
+
+    closeModal();
+
+    scrollToBottom();
+
+
+    if (questionInput) {
+
+        questionInput.value =
+            "";
+
+        questionInput.focus();
+
+    }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value) {
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+Project Vision
+
+Think of it as:
+
+"The Salesforce + Oracle Hospitality + WhatsApp + ChatGPT for Hotels."
+
+The WhatsApp assistant becomes the hotel's digital concierge.
+
+Guests can simply say:
+
+"Book me a deluxe room for Friday."
+
+instead of pressing buttons.
+
+The AI understands intent, checks room availability, calculates pricing, offers upgrades, processes payment, and confirms the booking.

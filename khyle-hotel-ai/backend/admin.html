@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khyle Grand Hotel | Admin Dashboard</title>
+
+    <style>
+        :root {
+            --navy: #14283f;
+            --gold: #c7a45d;
+            --background: #f4f6f9;
+            --text: #243247;
+            --muted: #718096;
+            --border: #e3e8ef;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        header {
+            background: var(--navy);
+            color: white;
+            padding: 22px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            margin: 0 0 6px;
+            font-size: 23px;
+        }
+
+        header p {
+            margin: 0;
+            color: #d4dce6;
+            font-size: 13px;
+        }
+
+        .brand {
+            border-left: 3px solid var(--gold);
+            padding-left: 14px;
+        }
+
+        .header-label {
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 30px 5%;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        h2 {
+            margin: 0 0 7px;
+            font-size: 25px;
+        }
+
+        .subheading {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 11px 16px;
+        }
+
+        .primary-button:hover {
+            background: #203d5c;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--gold);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 30px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .panel-heading {
+            padding: 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-heading h3 {
+            margin: 0 0 7px;
+            font-size: 19px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            padding: 18px 22px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            border: 1px solid #ccd5e0;
+            border-radius: 6px;
+            padding: 11px 12px;
+            background: white;
+            color: var(--text);
+        }
+
+        #search {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        #status-filter {
+            min-width: 170px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #536278;
+            font-weight: 700;
+        }
+
+        .reference {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .guest-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .status-pending {
+            background: #fff2cf;
+            color: #865d00;
+        }
+
+        .status-confirmed {
+            background: #d9f4e5;
+            color: #17663b;
+        }
+
+        .status-cancelled {
+            background: #ffe0e0;
+            color: #9a2525;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            border: none;
+            border-radius: 5px;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+
+        .confirm-button {
+            background: #d9f4e5;
+            color: #17663b;
+        }
+
+        .cancel-button {
+            background: #ffe0e0;
+            color: #9a2525;
+        }
+
+        .disabled-button {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin: 0 22px 18px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-size: 13px;
+        }
+
+        #message.error {
+            display: block;
+            background: #ffe7e7;
+            color: #922;
+        }
+
+        #message.success {
+            display: block;
+            background: #e1f6e9;
+            color: #17663b;
+        }
+
+        .table-footer {
+            padding: 16px 22px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 35px;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 520px) {
+            main {
+                padding: 22px 4%;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-value {
+                font-size: 25px;
+            }
+
+            header {
+                padding: 20px 4%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <div class="header-label">Luxury Hospitality</div>
+            <h1>Khyle Grand Hotel</h1>
+            <p>Lagos, Nigeria</p>
+        </div>
+
+        <div>
+            <strong>Administration</strong>
+            <p>Reservations Management</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-heading">
+            <div>
+                <h2>Booking Dashboard</h2>
+                <p class="subheading">
+                    View and manage hotel reservation requests.
+                </p>
+            </div>
+
+            <button class="primary-button" id="refresh-button">
+                Refresh Bookings
+            </button>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card">
+                <span class="stat-label">Total Bookings</span>
+                <strong class="stat-value" id="total-count">—</strong>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Pending</span>
+                <strong class="stat-value" id="pending-count">—</strong>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Confirmed</span>
+                <strong class="stat-value" id="confirmed-count">—</strong>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">Cancelled</span>
+                <strong class="stat-value" id="cancelled-count">—</strong>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">
+                <h3>Reservations</h3>
+                <p class="subheading">
+                    Search by booking reference or guest name.
+                </p>
+            </div>
+
+            <div class="toolbar">
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search guest or booking reference..."
+                    aria-label="Search bookings"
+                >
+
+                <select id="status-filter" aria-label="Filter booking status">
+                    <option value="all">All statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div id="message" role="status" aria-live="polite"></div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking Reference</th>
+                            <th>Guest</th>
+                            <th>Room</th>
+                            <th>Stay</th>
+                            <th>Guests</th>
+                            <th>Rate / Night</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="booking-rows">
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                Loading bookings...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer" id="table-footer">
+                Loading reservations...
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Khyle Grand Hotel AI Concierge · Internal Administration
+    </footer>
+
+    <script>
+        const API_BASE = "/admin/api/bookings";
+
+        const rowsElement = document.getElementById("booking-rows");
+        const searchElement = document.getElementById("search");
+        const statusElement = document.getElementById("status-filter");
+        const messageElement = document.getElementById("message");
+        const footerElement = document.getElementById("table-footer");
+
+        let bookings = [];
+        let searchTimer;
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[character]);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat("en-NG", {
+                style: "currency",
+                currency: "NGN",
+                maximumFractionDigits: 0
+            }).format(Number(value) || 0);
+        }
+
+        function formatDate(value) {
+            if (!value) return "—";
+
+            const parts = String(value).split("-");
+            if (parts.length !== 3) return escapeHtml(value);
+
+            const date = new Date(
+                Number(parts[0]),
+                Number(parts[1]) - 1,
+                Number(parts[2])
+            );
+
+            return date.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+        }
+
+        function showMessage(text, type) {
+            messageElement.textContent = text;
+            messageElement.className = type;
+        }
+
+        function clearMessage() {
+            messageElement.textContent = "";
+            messageElement.className = "";
+        }
+
+        async function loadBookings() {
+            clearMessage();
+
+            rowsElement.innerHTML = `
+                <tr>
+                    <td colspan="8" class="empty-state">
+                        Loading bookings...
+                    </td>
+                </tr>
+            `;
+
+            const search = searchElement.value.trim();
+            const status = statusElement.value;
+
+            const params = new URLSearchParams({
+                search,
+                status
+            });
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}?${params.toString()}`
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Could not load bookings (HTTP ${response.status}).`
+                    );
+                }
+
+                const data = await response.json();
+                bookings = data.bookings || [];
+
+                renderBookings();
+                await loadStatistics();
+
+            } catch (error) {
+                rowsElement.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            Could not load bookings. Check that the server
+                            is running and the admin API is available.
+                        </td>
+                    </tr>
+                `;
+
+                footerElement.textContent = "Unable to retrieve reservations.";
+                showMessage(error.message, "error");
+            }
+        }
+
+        async function loadStatistics() {
+            const response = await fetch(
+                `${API_BASE}?status=all`
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load booking statistics.");
+            }
+
+            const data = await response.json();
+            const allBookings = data.bookings || [];
+
+            document.getElementById("total-count").textContent =
+                allBookings.length;
+
+            document.getElementById("pending-count").textContent =
+                allBookings.filter(b =>
+                    String(b.status).toLowerCase() === "pending"
+                ).length;
+
+            document.getElementById("confirmed-count").textContent =
+                allBookings.filter(b =>
+                    String(b.status).toLowerCase() === "confirmed"
+                ).length;
+
+            document.getElementById("cancelled-count").textContent =
+                allBookings.filter(b =>
+                    String(b.status).toLowerCase() === "cancelled"
+                ).length;
+        }
+
+        function renderBookings() {
+            if (bookings.length === 0) {
+                rowsElement.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            No bookings match your search.
+                        </td>
+                    </tr>
+                `;
+
+                footerElement.textContent = "0 reservations found.";
+                return;
+            }
+
+            rowsElement.innerHTML = bookings.map(booking => {
+                const status = String(booking.status || "pending")
+                    .toLowerCase();
+
+                const validStatuses = [
+                    "pending",
+                    "confirmed",
+                    "cancelled"
+                ];
+
+                const safeStatus = validStatuses.includes(status)
+                    ? status
+                    : "pending";
+
+                const reference = escapeHtml(
+                    booking.booking_reference
+                );
+
+                let actions = "";
+
+                if (safeStatus === "pending") {
+                    actions = `
+                        <button
+                            class="action-button confirm-button"
+                            data-action="confirmed"
+                            data-reference="${reference}">
+                            Confirm
+                        </button>
+                        <button
+                            class="action-button cancel-button"
+                            data-action="cancelled"
+                            data-reference="${reference}">
+                            Cancel
+                        </button>
+                    `;
+                } else if (safeStatus === "confirmed") {
+                    actions = `
+                        <button
+                            class="action-button cancel-button"
+                            data-action="cancelled"
+                            data-reference="${reference}">
+                            Cancel
+                        </button>
+                    `;
+                } else {
+                    actions = `
+                        <button
+                            class="action-button disabled-button"
+                            disabled>
+                            Cancelled
+                        </button>
+                    `;
+                }
+
+                return `
+                    <tr>
+                        <td>
+                            <span class="reference">${reference}</span>
+                        </td>
+
+                        <td>
+                            <div class="guest-name">
+                                ${escapeHtml(booking.guest_name)}
+                            </div>
+                        </td>
+
+                        <td>${escapeHtml(booking.room_name)}</td>
+
+                        <td>
+                            ${formatDate(booking.check_in)}
+                            <div class="muted">to</div>
+                            ${formatDate(booking.check_out)}
+                        </td>
+
+                        <td>${escapeHtml(booking.guests)}</td>
+
+                        <td>
+                            ${formatCurrency(booking.rate_per_night)}
+                        </td>
+
+                        <td>
+                            <span class="status status-${safeStatus}">
+                                ${safeStatus}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">${actions}</div>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+            footerElement.textContent =
+                `${bookings.length} reservation(s) found.`;
+        }
+
+        async function updateBookingStatus(reference, status) {
+            const actionLabel = status === "confirmed"
+                ? "confirm"
+                : "cancel";
+
+            if (!confirm(
+                `Are you sure you want to ${actionLabel} booking ${reference}?`
+            )) {
+                return;
+            }
+
+            clearMessage();
+
+            try {
+                const params = new URLSearchParams({ status });
+
+                const response = await fetch(
+                    `${API_BASE}/${encodeURIComponent(reference)}/status?${params}`,
+                    { method: "PATCH" }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.detail || "Could not update booking."
+                    );
+                }
+
+                showMessage(
+                    `Booking ${reference} is now ${status}.`,
+                    "success"
+                );
+
+                await loadBookings();
+
+            } catch (error) {
+                showMessage(error.message, "error");
+            }
+        }
+
+        rowsElement.addEventListener("click", event => {
+            const button = event.target.closest("button[data-action]");
+
+            if (!button) return;
+
+            updateBookingStatus(
+                button.dataset.reference,
+                button.dataset.action
+            );
+        });
+
+        searchElement.addEventListener("input", () => {
+            clearTimeout(searchTimer);
+
+            searchTimer = setTimeout(() => {
+                loadBookings();
+            }, 300);
+        });
+
+        statusElement.addEventListener("change", loadBookings);
+
+        document.getElementById("refresh-button")
+            .addEventListener("click", loadBookings);
+
+        loadBookings();
+    </script>
+</body>
+</html>

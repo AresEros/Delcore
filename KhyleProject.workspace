@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="KhyleProject" Database="" Version="10000">
+  <Project Name="KhyleProject" Path="KhyleProject/KhyleProject.project" Active="Yes"/>
+  <Project Name="KhyleBasic" Path="KhyleBasic/KhyleBasic.project"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug">
+      <Environment/>
+      <Project Name="KhyleProject" ConfigName="Debug"/>
+      <Project Name="KhyleBasic" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release">
+      <Environment/>
+      <Project Name="KhyleProject" ConfigName="Release"/>
+      <Project Name="KhyleBasic" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
